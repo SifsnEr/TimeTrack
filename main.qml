@@ -1,43 +1,146 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import Tracker 1.0
+import QtQuick.Controls.Material 2.12
+import QtQuick.Window 2.12
+import QtQml 2.12
 
 ApplicationWindow {
-    id: window
     visible: true
-    width: 480
-    height: 320
-    title: qsTr("TimeTrack")
+    width: 400
+    height: 600
+    title: "TimeTrack"
+    Material.theme: Material.Dark
+    Material.foreground: "white"
 
-    TrackerBackend {
-        id: tracker
+    ListModel {
+        id: appStatsModel
+    }
+
+    Timer {
+        interval: 100
+        running: true
+        repeat: false
+        onTriggered: updateStats()
+    }
+
+    Item {
+        Connections {
+            target: backend
+            onAppStatsChanged: updateStats()
+        }
+    }
+
+    function updateStats() {
+        const stats = backend.getAppUsageStats()
+        for (let i = 0; i < stats.length; ++i) {
+            if (i < appStatsModel.count) {
+                const existing = appStatsModel.get(i)
+                if (existing.seconds !== stats[i].seconds || existing.app !== stats[i].app) {
+                    appStatsModel.set(i, stats[i])
+                }
+            } else {
+                appStatsModel.append(stats[i])
+            }
+        }
+
+        while (appStatsModel.count > stats.length) {
+            appStatsModel.remove(appStatsModel.count - 1)
+        }       
     }
 
     Column {
-        anchors.centerIn: parent
+        anchors.fill: parent
         spacing: 16
+        padding: 16
 
         Text {
             id: currentAppLabel
-            text: qsTr("Текущее приложение: \n") + (tracker.currentApp.length ? tracker.currentApp : qsTr("—"))
-            font.pixelSize: 18
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.Wrap
-            width: parent.width * 0.9
+            text: "Текущее приложение: " + backend.currentAppName
+            font.pixelSize: 16
+            color: "white"
+
+            property bool hovered: false
+
+            ToolTip.visible: hovered
+            ToolTip.delay: 500
+            ToolTip.text: backend.currentApp
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: currentAppLabel.hovered = true 
+                onExited: currentAppLabel.hovered = false
+            }
         }
 
         Text {
-            id: totalTimeLabel
-            text: qsTr("Общее время: ") + tracker.totalTime + qsTr(" сек.")
+            text: "Общее время: " + backend.formattedTime
             font.pixelSize: 16
+            color: "white"
         }
 
         Button {
-            id: exportBtn
-            text: qsTr("Экспорт в CSV")
-            onClicked: tracker.exportToCSV()
-            width: 160
-            height: 36
+            text: "Экспорт в CSV"
+            onClicked: backend.exportToCSV()
+        }
+
+        Button {
+            text: "Очистить статистику"
+            onClicked: backend.resetStats()
+        }
+
+        Text {
+            text: "Статистика по приложениям:"
+            font.bold: true
+            font.pixelSize: 14
+            padding: 8
+            color: "white"
+        }
+
+        ListView {
+            model: appStatsModel
+            height: 400
+            width: parent.width
+            clip: true
+
+            delegate: Row {
+                spacing: 16
+                width: parent.width
+                height: 24
+
+                property bool hovered: false
+
+                ToolTip.visible: hovered
+                ToolTip.delay: 500
+                ToolTip.text: appPath
+
+                Text {
+                    id: appText
+                    text: app
+                    width: 250
+                    elide: Text.ElideRight
+                    color: "white"
+
+                    property bool hovered: false
+
+                    ToolTip.visible: hovered
+                    ToolTip.delay: 500
+                    ToolTip.text: appPath
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: hovered = true
+                        onExited: hovered = false
+                    }  
+                }
+
+                Text {
+                    text: seconds + " сек."
+                    color: "white"
+                }
+
+            }
         }
     }
 }

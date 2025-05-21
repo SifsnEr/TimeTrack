@@ -5,32 +5,47 @@
 #include <QTimer>
 #include <QMap>
 #include <QString>
+#include <QVariantList>
 
-class TrackerBackend : public QObject {
+class TrackerBackend : public QObject
+{
     Q_OBJECT
-    Q_PROPERTY(QString currentApp READ currentApp NOTIFY currentAppChanged)
-    Q_PROPERTY(int totalTime READ totalTime NOTIFY totalTimeChanged)
-    
+    Q_PROPERTY(QString currentApp    READ getCurrentApp    NOTIFY currentAppChanged)
+    Q_PROPERTY(QString formattedTime READ getFormattedTime NOTIFY totalTimeChanged)
+    Q_PROPERTY(QVariantList appStats READ getAppUsageStats NOTIFY appStatsChanged)
+    Q_PROPERTY(QString currentAppName READ getCurrentAppName NOTIFY currentAppNameChanged)
+
 public:
     explicit TrackerBackend(QObject *parent = nullptr);
-    ~TrackerBackend() override = default;
 
-    QString currentApp() const;
-    int totalTime() const;
+    Q_INVOKABLE QString getCurrentAppName() const { return currentAppName; }
+    Q_INVOKABLE QString getCurrentApp() const;
+    Q_INVOKABLE QString getFormattedTime() const;
     Q_INVOKABLE void exportToCSV();
+    Q_INVOKABLE QVariantList getAppUsageStats() const;
+    Q_INVOKABLE void resetStats();
 
 signals:
     void currentAppChanged();
+    void currentAppNameChanged();
     void totalTimeChanged();
-
-private slots:
-    void updateActiveWindow();
+    void appStatsChanged();
 
 private:
     QTimer *timer;
-    QString m_currentApp;
-    int m_totalTime = 0;
-    QMap<QString, int> m_appTime;
+    QString extractReadableName(const QString &path);
+    QString currentApp;
+    QString currentAppName;
+    QMap<QString, int> appUsage;
+    int totalSeconds;
+
+    QVariantList appStatsCache;
+
+    void checkActiveApp();
+    void updateAppStatsCache();
+    QString fetchActiveAppName();
+    void saveToJson();
+    void loadFromJson();
 };
 
-#endif
+#endif 

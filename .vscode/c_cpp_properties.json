@@ -3,72 +3,16 @@
         {
             "name": "windows-gcc-x64",
             "includePath": [
-                "d:/cpp/TimeTrack/**",
-                "D:/Qt/6.9.0/msvc2019_64/include/**",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtWidgets",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtCore",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtGui",
-                "\"C:/Program Files (x86)/Windows Kits/10/Include/**\"",
-                "D:/Qt/6.9.0/msvc2019_64/include"
+                "${workspaceFolder}/**",
+                "D:/cpp/Qt/**"
             ],
-            "compilerPath": "D:/cpp/TDM-GCC/bin/gcc.exe",
+            "compilerPath": "gcc",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
             "intelliSenseMode": "windows-gcc-x64",
             "compilerArgs": [
                 ""
-            ],
-            "compilerPathInCppPropertiesJson": "D:/cpp/TDM-GCC/bin/gcc.exe",
-            "mergeConfigurations": false,
-            "recursiveIncludes": {},
-            "browse": {
-                "limitSymbolsToIncludedHeaders": true
-            },
-            "defines": [
-                "\"WIN32_LEAN_AND_MEAN\"",
-                "\"NOMINMAX\""
             ]
-        },
-        {
-            "name": "mingw",
-            "includePath": [
-                "${workspaceFolder}/**"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "windowsSdkVersion": "10.0.20348.0",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe"
-        },
-        {
-            "name": "MSVC",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "D:/Qt/6.9.0/msvc2019_64/include/**",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtWidgets",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtCore",
-                "D:/Qt/6.9.0/msvc2019_64/include/QtGui",
-                "\"C:/Program Files (x86)/Windows Kits/10/Include/**\""
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "windowsSdkVersion": "10.0.20348.0",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "D:/cpp/TDM-GCC/bin/gcc.exe",
-            "compilerPathInCppPropertiesJson": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
-            "mergeConfigurations": false,
-            "recursiveIncludes": {},
-            "browse": {
-                "limitSymbolsToIncludedHeaders": true
-            }
         }
     ],
     "version": 4

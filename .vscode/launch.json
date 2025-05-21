@@ -2,14 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Qt Designer",
-      "type": "qt",
-      "request": "launch",
-      "program": "D:/Qt/6.9.0/msvc2019_64/bin/designer.exe",
-      "args": [],
-      "miDebuggerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/debugger/vsdebug.exe"
-    },
-    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
@@ -26,8 +18,7 @@
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
-      ],
-      "visualizerFile": "c:\\Users\\artem\\AppData\\Roaming\\Code\\User\\workspaceStorage\\636b93a8d6dbb65a1af08c1ea165779a\\tonka3000.qtvsctools\\qt.natvis.xml"
+      ]
     }
   ]
 }

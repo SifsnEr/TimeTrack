@@ -1,18 +1,14 @@
 TEMPLATE = app
 TARGET = TimeTrack
-QT += qml quick gui
+QT += qml quick gui quickcontrols2 widgets
 CONFIG += c++17
+LIBS += -lpsapi -lVersion
 
 SOURCES += main.cpp \
            TrackerBackend.cpp
 
 HEADERS += TrackerBackend.h
 
-RESOURCES += qml_qmlcache.qrc
+RESOURCES += resources.qrc
 
-win32 {
-    LIBS += -lpsapi
-    INCLUDEPATH += $$(WINDOWSSDKDIR)\Include\$$(WINDOWSSDKVERSION)\um
-}
-
-QT_INSTALL_PREFIX = D:/Qt/6.9.0/msvc2019_64
+win32: LIBS += -lpsapi
